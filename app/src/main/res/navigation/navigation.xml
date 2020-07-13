@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/registerSecreen">
+
+    <fragment
+        android:id="@+id/registerSecreen"
+        android:name="com.google.eyadhewware.reglog.Secreens.RegisterSecreen"
+        android:label="fragment_register_secreen"
+        tools:layout="@layout/fragment_register_secreen" >
+        <action
+            android:id="@+id/action_registerSecreen_to_loginSecreen"
+            app:destination="@id/loginSecreen" />
+        <action
+            android:id="@+id/action_registerSecreen_to_homeSecreen"
+            app:destination="@id/homeSecreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginSecreen"
+        android:name="com.google.eyadhewware.reglog.Secreens.LoginSecreen"
+        android:label="fragment_login_secreen"
+        tools:layout="@layout/fragment_login_secreen" >
+        <action
+            android:id="@+id/action_loginSecreen_to_registerSecreen"
+            app:destination="@id/registerSecreen" />
+        <action
+            android:id="@+id/action_loginSecreen_to_homeSecreen"
+            app:destination="@id/homeSecreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeSecreen"
+        android:name="com.google.eyadhewware.reglog.Secreens.HomeSecreen"
+        android:label="fragment_home_secreen"
+        tools:layout="@layout/fragment_home_secreen" />
+</navigation>
