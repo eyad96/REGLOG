@@ -16,27 +16,23 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.material.snackbar.Snackbar
 import com.google.eyadhewware.reglog.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.fragment_register_secreen.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
+import kotlin.math.E
 
 class RegisterSecreen : Fragment() {
-
-
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    // in here you can do logic when backPress is clicked
-                    activity?.onBackPressed()
-                }
-
-            })
-        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,19 +46,29 @@ class RegisterSecreen : Fragment() {
     private val GALLERY = 1
     private val CAMERA = 2
 
+
+
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         AddImage?.apply {
             setOnClickListener {
                 showPictureDialog()
             }
         }
+
         Text2?.apply {
             setOnClickListener {
                 findNavController().navigate(R.id.action_registerSecreen_to_loginSecreen)
 
             }
         }
+
+
+
         RegisterBTN?.apply {
             setOnClickListener {
                 if (UserNameREG.text.toString().isEmpty()
@@ -92,6 +98,15 @@ class RegisterSecreen : Fragment() {
                 } else if (UserNameREG.text.toString().isEmpty()) {
                     Toast.makeText(activity, "enter username", Toast.LENGTH_SHORT).show()
                 }  else {
+                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(EmailREG.text.toString() , PasswordREG.text.toString())
+                            .addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                return@addOnCompleteListener
+                                Log.d("Main", "Successfully created : ${it.result!!.user!!.uid}")
+
+                                }
+                            }
+                    findNavController().navigate(R.id.action_registerSecreen_to_homeSecreen)
 
 
                 }
@@ -130,7 +145,7 @@ class RegisterSecreen : Fragment() {
         {
             if (data != null)
             {
-                val contentURI = data!!.data
+                val contentURI = data.data
                 try {
                     val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, contentURI)
                     saveImage(bitmap)
@@ -143,6 +158,7 @@ class RegisterSecreen : Fragment() {
                     Toast.makeText(activity, "Failed", Toast.LENGTH_SHORT).show()
                 }
             }
+
         }
         else if (requestCode == CAMERA)
         {
@@ -152,6 +168,9 @@ class RegisterSecreen : Fragment() {
             Toast.makeText(activity, "Photo Show!", Toast.LENGTH_SHORT).show()
         }
     }
+
+
+
 
     fun saveImage(myBitmap: Bitmap):String {
         val bytes = ByteArrayOutputStream()
@@ -185,6 +204,7 @@ class RegisterSecreen : Fragment() {
 
     companion object {
         private val IMAGE_DIRECTORY = "/nalhdaf"
+        private val RC_SIGN_IN =120
     }
 
 }

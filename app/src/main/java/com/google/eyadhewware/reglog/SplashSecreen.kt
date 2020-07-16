@@ -4,9 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_splash_secreen.*
 
 class SplashSecreen : AppCompatActivity() {
+
 
     private val SPLASH_DELAY: Long = 1000 //3 seconds
     private val FLAG_ACTIVITY_CLEAR_TOP = 3000
@@ -16,6 +19,9 @@ class SplashSecreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_secreen)
+
+
+
 
         mDelayHandler = Handler()
         //Navigate with delay
