@@ -33,5 +33,9 @@
         android:id="@+id/homeSecreen"
         android:name="com.google.eyadhewware.reglog.Secreens.HomeSecreen"
         android:label="fragment_home_secreen"
-        tools:layout="@layout/fragment_home_secreen" />
+        tools:layout="@layout/fragment_home_secreen" >
+        <action
+            android:id="@+id/action_homeSecreen_to_loginSecreen"
+            app:destination="@id/loginSecreen" />
+    </fragment>
 </navigation>

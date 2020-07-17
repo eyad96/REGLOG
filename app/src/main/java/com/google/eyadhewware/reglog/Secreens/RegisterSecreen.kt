@@ -34,6 +34,14 @@ import kotlin.math.E
 
 class RegisterSecreen : Fragment() {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // in here you can do logic when backPress is clicked
+            }
+        })
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -71,49 +79,53 @@ class RegisterSecreen : Fragment() {
 
         RegisterBTN?.apply {
             setOnClickListener {
-                if (UserNameREG.text.toString().isEmpty()
-                    && PasswordREG.text.toString().isEmpty()
-                    && EmailREG.text.toString().isEmpty()
-                ) {
-                    Toast.makeText(activity, "pls fill all field", Toast.LENGTH_SHORT).show()
-                }
-                else if (UserNameREG.text.toString().isEmpty()
-                    && PasswordREG.text.toString().isEmpty()
-                ) {
-                    Toast.makeText(activity, "enter UserNam and password", Toast.LENGTH_SHORT).show()
-                }
-                else if (UserNameREG.text.toString().isEmpty()
-                    && EmailREG.text.toString().isEmpty()
-                    && PasswordREG.text.toString().isNotEmpty()
-                ) {
-                    Toast.makeText(activity, "enter Email and UserName", Toast.LENGTH_SHORT).show()
-                }
-                else if (PasswordREG.text.toString().isEmpty()
-                    && EmailREG.text.toString().isEmpty()
-                ) {
-                    Toast.makeText(activity, "enter Email and password", Toast.LENGTH_SHORT).show()
-                }
-                else if (EmailREG.text.toString().isEmpty()) {
-                    Toast.makeText(activity, "enter Email", Toast.LENGTH_SHORT).show()
-                } else if (UserNameREG.text.toString().isEmpty()) {
-                    Toast.makeText(activity, "enter username", Toast.LENGTH_SHORT).show()
-                }  else {
-                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(EmailREG.text.toString() , PasswordREG.text.toString())
-                            .addOnCompleteListener {
-                                if (it.isSuccessful) {
-                                return@addOnCompleteListener
-                                Log.d("Main", "Successfully created : ${it.result!!.user!!.uid}")
-
-                                }
-                            }
-                    findNavController().navigate(R.id.action_registerSecreen_to_homeSecreen)
-
-
-                }
+                perFormRegister()
+                findNavController().navigate(R.id.action_registerSecreen_to_homeSecreen)
             }
 
         }
 
+    }
+    private fun perFormRegister(){
+        if (UserNameREG.text.toString().isEmpty()
+                && PasswordREG.text.toString().isEmpty()
+                && EmailREG.text.toString().isEmpty()
+        ) {
+            Toast.makeText(activity, "pls fill all field", Toast.LENGTH_SHORT).show()
+        }
+        else if (UserNameREG.text.toString().isEmpty()
+                && PasswordREG.text.toString().isEmpty()
+        ) {
+            Toast.makeText(activity, "enter UserNam and password", Toast.LENGTH_SHORT).show()
+        }
+        else if (UserNameREG.text.toString().isEmpty()
+                && EmailREG.text.toString().isEmpty()
+                && PasswordREG.text.toString().isNotEmpty()
+        ) {
+            Toast.makeText(activity, "enter Email and UserName", Toast.LENGTH_SHORT).show()
+        }
+        else if (PasswordREG.text.toString().isEmpty()
+                && EmailREG.text.toString().isEmpty()
+        ) {
+            Toast.makeText(activity, "enter Email and password", Toast.LENGTH_SHORT).show()
+        }
+        else if (EmailREG.text.toString().isEmpty()) {
+            Toast.makeText(activity, "enter Email", Toast.LENGTH_SHORT).show()
+        } else if (UserNameREG.text.toString().isEmpty()) {
+            Toast.makeText(activity, "enter username", Toast.LENGTH_SHORT).show()
+        }  else {
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(EmailREG.text.toString() , PasswordREG.text.toString())
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            return@addOnCompleteListener
+                            Log.d("Main", "Successfully created : ${it.result!!.user!!.uid}")
+                        }
+
+                    }.addOnFailureListener {
+                        Log.d("MYLOG", "Failed to Creat User : ${it.message}")
+                    }
+
+        }
     }
     private fun showPictureDialog() {
         val pictureDialog = android.app.AlertDialog.Builder(requireContext())
